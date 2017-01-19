@@ -3,6 +3,7 @@
 namespace Larabros\Elogram\Http\Middleware;
 
 use GuzzleHttp\Psr7\Uri;
+use League\OAuth2\Client\Token\AccessToken;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -30,10 +31,15 @@ final class AuthMiddleware extends AbstractMiddleware
             return $next($request, $options);
         }
 
+        $accessToken = $this->config->get('access_token');
+        if (!($accessToken istanceof AccessToken)) {
+            $accessToken = new AccessToken(json_decode($this->config->get('access_token));
+        }
+
         $uri = Uri::withQueryValue(
             $request->getUri(),
             'access_token',
-            $this->config->get('access_token')->getToken()
+            $accessToken->getToken()
         );
 
         return parent::__invoke(
