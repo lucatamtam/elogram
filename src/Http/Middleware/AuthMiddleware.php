@@ -32,8 +32,8 @@ final class AuthMiddleware extends AbstractMiddleware
         }
 
         $accessToken = $this->config->get('access_token');
-        if (!($accessToken istanceof AccessToken)) {
-            $accessToken = new AccessToken(json_decode($this->config->get('access_token'));
+        if (!($accessToken instanceof AccessToken)) {
+            $accessToken = new AccessToken(json_decode($this->config->get('access_token')));
         }
 
         $uri = Uri::withQueryValue(
